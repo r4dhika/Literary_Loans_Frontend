@@ -3,6 +3,8 @@
 import { useRouter,usePathname,useSearchParams,useParams } from 'next/navigation';
 import axiosInstance from '@/axiosInstance';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import logo from '../../LIterary_Loans-removebg-preview.png';
 
 const queryToObject = (query: string) => {
     const parameters = new URLSearchParams(query)
@@ -33,8 +35,8 @@ export default function Page(){
       }, [router]);
 
     return(
-        <div className="text-white">
-            Loading...
-        </div>
+      <div className="mr-4">
+        <Image src={logo} alt="Image" />
+      </div>
     )
 }

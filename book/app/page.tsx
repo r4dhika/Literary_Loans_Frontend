@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import useAuthStore from "./store/authStore"
+import Image from 'next/image';
+import logo from './LIterary_Loans-removebg-preview.png';
 
 export default function Home() {
   const auth_url = process.env.GOOGLE_AUTH_URL || ""
@@ -16,7 +18,7 @@ export default function Home() {
     console.log(loading)
     axiosInstance.get('/auth/data')
       .then(response => {
-        console.log("Response",response.data)
+        console.log("Response", response.data)
         if (response.status === 200) {
           const newUser = {
             isAuthenticated: true,
@@ -27,12 +29,12 @@ export default function Home() {
             lastName: response.data.last_name,
             token: response.data.token
           }
-          if(response.data.isOnboarded)
-          console.log("New User",newUser)
+          if (response.data.isOnboarded)
+            console.log("New User", newUser)
           authStore.setUser(newUser)
-          if(response.data.isOnboarded){
+          if (response.data.isOnboarded) {
             router.push("/dashboard")
-          }else{
+          } else {
             router.push("/onboarding")
           }
         } else {
@@ -46,12 +48,21 @@ export default function Home() {
   }, [])
   console.log(authStore.user.token)
   return loading ? (
-    <div className="text-white">
-      Loading...
+    <div className="mr-4">
+        <Image src={logo} alt="Image" />
     </div>
   ) : (
-    <main className="flex flex-col items-center justify-center w-100 h-100">
-      <Button><Link href={auth_url}>Sign in</Link></Button>
+    <main className="flex flex-row items-center justify-center w-full h-full">
+      <div className="mr-4">
+        <Image src={logo} alt="Image" />
+      </div>
+      <div className="text-center">
+        <h1 className="text-4xl font-sans text-white">Rent and lease out books<br/> Connect with people with similar interests</h1>
+        
+        {/* add space before the button */}
+        <div className="mt-10"></div>
+          <Button><Link href={auth_url}>Sign in</Link></Button>
+        </div>
     </main>
-  );
+  )
 }
