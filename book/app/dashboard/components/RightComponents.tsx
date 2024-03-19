@@ -30,9 +30,67 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useToast } from "@/components/ui/use-toast"
+import axiosInstance from "@/axiosInstance";
+import useAuthStore from "@/app/store/authStore";
 
-export function BorrowRequestCard({ bookName, bookDescription, price, imageUrl, borrower_name, borrower_city, date }: any) {
+export function BorrowRequestCard({ bookName, bookDescription, price, imageUrl, borrower_name, borrower_city, request_date, return_date, book_id, request_id }: any) {
     const { toast } = useToast()
+    const authStore = useAuthStore()
+
+    const handleAccept = () => {
+
+        const bookDetails = {
+            request_id: Number(request_id)
+        };
+
+        axiosInstance.post("/accept_borrow_request/", { bookDetails }, {
+            headers: {
+                'Authorization': authStore.user.token
+            }
+        })
+            .then((response: any) => {
+                if (response.status === 200) {
+                    toast({
+                        title: "Request Accepted",
+                        description: `Accepted on ${new Date().toLocaleString()}`,
+                    });
+                    window.location.reload();
+                } else {
+                    alert('Failed to accept request');
+                }
+            })
+            .catch(() => {
+                alert("Failed to accept request");
+            });
+    };
+
+    const handleReject = () => {
+
+        const bookDetails = {
+            request_id: Number(request_id)
+        };
+
+        axiosInstance.post("/reject_borrow_request/", { bookDetails }, {
+            headers: {
+                'Authorization': authStore.user.token
+            }
+        })
+            .then((response: any) => {
+                if (response.status === 200) {
+                    toast({
+                        title: "Request Rejected",
+                        description: `Rejected on ${new Date().toLocaleString()}`,
+                        variant: 'destructive'
+                    });
+                    window.location.reload();
+                } else {
+                    alert('Failed to reject request');
+                }
+            })
+            .catch(() => {
+                alert("Failed to reject request");
+            });
+    };
     return (
         <Dialog>
             <DialogTrigger className="text-white font-bold">
@@ -50,7 +108,10 @@ export function BorrowRequestCard({ bookName, bookDescription, price, imageUrl, 
                         ${price} per day
                     </DialogDescription>
                     <DialogDescription className="font-bold">
-                        Request Date: {date}
+                        Request Date: {request_date}
+                    </DialogDescription>
+                    <DialogDescription className="font-bold">
+                        Return Date: {return_date}
                     </DialogDescription>
                 </DialogHeader>
                 <Card className="flex mt-auto align-middle items-center gap-2 p-2">
@@ -68,24 +129,11 @@ export function BorrowRequestCard({ bookName, bookDescription, price, imageUrl, 
                     </div>
                 </Card>
                 <DialogFooter>
-                    <Button
-                        onClick={() => {
-                            toast({
-                                title: "Request Accepted",
-                                description: "Friday, February 10, 2023 at 5:57 PM",
-                            })
-                        }}
-                    >
+                    <Button onClick={handleAccept}>
                         Accept
                     </Button>
                     <Button
-                        onClick={() => {
-                            toast({
-                                title: "Request Rejected",
-                                description: "Friday, February 10, 2023 at 5:57 PM",
-                                variant: 'destructive'
-                            })
-                        }}
+                        onClick={handleReject}
                         variant="destructive"
                     >
                         Reject

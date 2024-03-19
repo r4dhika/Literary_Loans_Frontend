@@ -68,6 +68,7 @@ interface Book {
 }
 
 interface Lended {
+    id: number;
     lender: User;
     borrower: User;
     book: Book;
@@ -94,6 +95,7 @@ export default function BorrowRequests({ token }: Props) {
         })
             .then(response => {
                 const lendedData: Lended[] = response.data.map(item => ({
+                    id: item.id,
                     lender: item.lender,
                     borrower: item.borrower,
                     book: item.book,
@@ -123,7 +125,7 @@ export default function BorrowRequests({ token }: Props) {
             <CardContent>
                 <div className="flex flex-col w-100 gap-4">
                     {lended.map((request, index) => (
-                        <BorrowRequestCard bookName={request.book.title} bookDescription={request.book.description} price={request.book.price} borrower_name={request.borrower.username} borrower_city={request.borrower.city} date={request.return_date} />
+                        <BorrowRequestCard bookName={request.book.title} bookDescription={request.book.description} price={request.book.price} borrower_name={request.borrower.username} borrower_city={request.borrower.city} return_date={request.return_date} book_id={request.book.id} request_date={request.request_date} request_id={request.id}/>
                     ))}
                 </div>
             </CardContent>

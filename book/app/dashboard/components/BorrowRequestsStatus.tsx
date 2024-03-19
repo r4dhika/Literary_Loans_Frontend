@@ -83,7 +83,7 @@ interface Props {
 
 export default function BorrowRequests({ token }: Props) {
     const { toast } = useToast()
-    const [requested, setReqeuested] = useState<Requested[]>([]);
+    const [requested, setRequested] = useState<Requested[]>([]);
     const authStore = useAuthStore();
 
     useEffect(() => {
@@ -102,7 +102,11 @@ export default function BorrowRequests({ token }: Props) {
                     request_date: item.request_date,
                     return_date: item.return_date
                 }));
-                setReqeuested(lendedData);
+                const sortedData: Requested[] = response.data.sort((a, b) => {
+                    return new Date(a.request_date).getTime() - new Date(b.request_date).getTime();
+                });
+                const reversedData: Requested[] = sortedData.reverse();
+                setRequested(sortedData);
                 console.log(response);
             })
             .catch(error => {
