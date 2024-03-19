@@ -9,14 +9,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import useAuthStore from "@/app/store/authStore";
+import RentBook from "./RentBook";
 
 
-export default function BookCard({ bookName, bookDescription, price, lenderName, lenderCity, image}: any) {//TYPESCRIPT
+export default function BookCard({ bookName, bookDescription, price, lenderName, image, book_id, lender_profile_pic}: any) {//TYPESCRIPT
     const authStore = useAuthStore()
     console.log(authStore.user)
     console.log(image)
-    const user_profile = authStore.user.picture
-    lenderName = authStore.user.firstName + " " + authStore.user.lastName
     return (
         <Card className="w-[100%] flex p-2 items-center dark">
             <img className='w-[100px]' src={image} alt="book image" />
@@ -27,7 +26,7 @@ export default function BookCard({ bookName, bookDescription, price, lenderName,
                 </div>
                 <Card className="flex mt-auto align-middle items-center gap-2 p-2">
                     <Avatar>
-                        <AvatarImage src={user_profile}/>
+                        <AvatarImage src={lender_profile_pic}/>
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div>
@@ -43,13 +42,12 @@ export default function BookCard({ bookName, bookDescription, price, lenderName,
                         <span className='text-3xl font-bold'>₹{price}</span>
                         <span className='text-xs'>per day</span>
                     </div>
-                    <Button className='w-[100%]'>Rent</Button>
+                    <RentBook book_id={book_id} />
                 </div>
             </CardContent>
             <CardFooter>
 
             </CardFooter>
         </Card>
-
     );
 }

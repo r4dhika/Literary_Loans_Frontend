@@ -19,6 +19,34 @@ import useAuthStore from "../../store/authStore";
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 
+interface User {
+    id: number;
+    password: string;
+    last_login: string | null;
+    is_superuser: boolean;
+    username: string;
+    first_name: string;
+    last_name: string;
+    is_staff: boolean;
+    is_active: boolean;
+    date_joined: string;
+    email: string;
+    phone_no: string | null;
+    isOnboarded: boolean;
+    rating_asLender: number | null;
+    rating_asBorrower: number | null;
+    total_rating_asLender: number | null;
+    total_rating_asBorrower: number | null;
+    addressLine1: string | null;
+    addressLine2: string | null;
+    city: string | null;
+    state: string | null;
+    country: string | null;
+    picture: string | null;
+    groups: any[]; // You might want to define a proper type for groups
+    user_permissions: any[]; // You might want to define a proper type for user_permissions
+  }
+
 interface Book {
     id: number;
     book_id: number;
@@ -34,8 +62,8 @@ interface Book {
     condition_rating: string;
     total_condition_rating: number;
     image: string;
-    lender_id: number;
-    borrower_id: number | null;
+    lender_id: User;
+    borrower_id: User | null;
     author_id: number;
 }
 
@@ -72,7 +100,7 @@ export default function BooksCard({ token }: Props) {
     return (
         <div className="flex flex-col w-100 align-middle justify-center gap-4">
             {books.map((book, index) => (
-                <BookCard key={index} bookName={book.title} bookDescription={book.description} price={book.price} lenderName={book.lender_id} lenderCity="Roorkee" image={book.image} />
+                <BookCard key={index} bookName={book.title} bookDescription={book.description} price={book.price} lenderName={book.lender_id.first_name} lender_profile_pic={book.lender_id.picture} image={book.image} book_id = {book.id}/>
             ))}
         </div>
     );
