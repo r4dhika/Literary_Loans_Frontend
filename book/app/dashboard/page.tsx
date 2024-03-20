@@ -7,11 +7,37 @@ import BorrowedBooks from "./components/BorrowedBooks";
 import LendedBooks from "./components/LendedBooks";
 import BorrowRequests from "./components/BorrowRequests";
 import BorrowRequestStatus from "./components/BorrowRequestsStatus";
+import ReturnRequests from "./components/ReturnRequests";
+import useBookStore from "../store/bookStore";
+import Fuse from 'fuse.js'
 
 export default function Home() {
     const authStore = useAuthStore();
     const isLoggedIn = authStore.user.isAuthenticated
     const token_value = authStore.user.token
+
+    const bookStore = useBookStore()
+    const handleSearch = (e:any)=>{
+        const books = bookStore.books;
+        const newBooks = []
+        const options = {
+            keys:["title"],
+            shouldSort:true
+        }
+
+        const fuse = new Fuse(books,options)
+        const result = fuse.search(e.target.value) as any
+
+        result.map((book):any=>{
+            newBooks.push(book.item)
+        })
+
+        bookStore.setBooks(newBooks)
+
+        console.log(newBooks)
+    }
+
+
     
     return isLoggedIn ? (
         <div>
@@ -24,13 +50,14 @@ export default function Home() {
                 <div className="flex flex-col gap-2 w-[50%]">
                     <div className="flex align-middle justify-between items-center">
                         <span className="text-white font-bold text-3xl">Books</span>
-                        <Input className="dark w-[50%]" placeholder="Search..." />
+                        <Input className="dark w-[50%] text-white" placeholder="Search..." onChange={handleSearch} />
                     </div>
                     <BooksCard token={token_value}/>
                 </div>
                 <div className="w-[30%] flex flex-col gap-3">
                     <BorrowRequests token={token_value}/>
                     <BorrowRequestStatus token = {token_value}/>
+                    <ReturnRequests token = {token_value}/>
                 </div>
             </div>
         </div>

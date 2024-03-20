@@ -18,6 +18,7 @@ import axiosInstance from "@/axiosInstance";
 import useAuthStore from "../../store/authStore";
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
+import useBookStore from "@/app/store/bookStore";
 
 interface User {
     id: number;
@@ -76,6 +77,8 @@ export default function BooksCard({ token }: Props) {
     const [books, setBooks] = useState<Book[]>([]);
     const authStore = useAuthStore();
 
+    const bookStore = useBookStore()
+
     useEffect(() => {
         axiosInstance.get<Book[]>(`/books/`, {
             headers: {
@@ -85,6 +88,7 @@ export default function BooksCard({ token }: Props) {
             .then(response => {
                 const books_data = response.data;
                 setBooks(books_data);
+                bookStore.setBooks(books_data)
                 console.log(response);
             })
             .catch(error => {
@@ -99,7 +103,7 @@ export default function BooksCard({ token }: Props) {
 
     return (
         <div className="flex flex-col w-100 align-middle justify-center gap-4">
-            {books.map((book, index) => (
+            {bookStore.books.map((book, index) => (
                 <BookCard key={index} bookName={book.title} bookDescription={book.description} price={book.price} lenderName={book.lender_id.first_name} lender_profile_pic={book.lender_id.picture} image={book.image} book_id = {book.id}/>
             ))}
         </div>
