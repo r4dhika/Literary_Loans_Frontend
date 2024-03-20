@@ -18,7 +18,7 @@ import axiosInstance from "@/axiosInstance";
 import useAuthStore from "../../store/authStore";
 import { useToast } from "@/components/ui/use-toast"
 import { useEffect, useState } from "react";
-import { BorrowRequestCard } from "./RightComponents";
+import { BorrowRequestCard } from "./BorrowRequestCard";
 
 interface User {
     id: number;
