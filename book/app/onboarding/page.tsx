@@ -40,6 +40,8 @@ export default function Onboarding() {
             phoneNumber:phoneNumber
         }
 
+        console.log(details)
+
         axiosInstance.post("/onboard/",{details})
         .then(response=>{
             if(response.status==200){

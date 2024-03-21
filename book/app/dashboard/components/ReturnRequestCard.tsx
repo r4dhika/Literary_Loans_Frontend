@@ -43,7 +43,7 @@ export function ReturnRequestCard({ bookName, bookDescription, price, imageUrl, 
             request_id: Number(request_id)
         };
 
-        axiosInstance.post("/accept_borrow_request/", { bookDetails }, {
+        axiosInstance.post("/accept_return_request/", { bookDetails }, {
             headers: {
                 'Authorization': authStore.user.token
             }
