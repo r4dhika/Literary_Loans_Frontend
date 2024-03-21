@@ -106,6 +106,31 @@ export default function LendedBooks({ token }: Props) {
         };
     }, [token, authStore.user.token]); // Include current_user and token in the dependency array
 
+    const handleReturn = (request_id: any) => {
+
+        const bookDetails = {
+            rented_id: Number(request_id)
+        };
+
+        axiosInstance.post("/lender_return/", { bookDetails }, {
+            headers: {
+                'Authorization': authStore.user.token
+            }
+        })
+            .then((response: any) => {
+                console.log(response)
+                if (response.status === 200) {
+                    alert('success');
+                    window.location.reload();
+                } else {
+                    alert('Failed to accept request');
+                }
+            })
+            .catch(() => {
+                alert("Failed to accept request");
+            });
+    };
+
     return (
         <Card className="dark">
             <CardHeader>
@@ -119,6 +144,7 @@ export default function LendedBooks({ token }: Props) {
                             <TableHead className="w-[200px]">Book</TableHead>
                             <TableHead className="text-right">Quantity</TableHead>
                             <TableHead className="text-right w-[150px]">Return Date</TableHead>
+                            <TableHead className="text-right w-[150px]">Return</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -128,7 +154,7 @@ export default function LendedBooks({ token }: Props) {
                                 <TableCell className="font-medium text-right">{request.quantity}</TableCell>
                                 <TableCell className="text-right">{request.return_date}</TableCell>
                                 <TableCell className="text-right">
-                                    {/* <Button onClick={() => handleReturn(request.id)}>Return Book</Button> */}
+                                    <Button onClick={() => handleReturn(request.id)}>Return Book</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

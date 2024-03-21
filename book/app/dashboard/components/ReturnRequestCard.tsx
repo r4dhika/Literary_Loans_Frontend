@@ -63,35 +63,6 @@ export function ReturnRequestCard({ bookName, bookDescription, price, imageUrl, 
                 alert("Failed to accept request");
             });
     };
-
-    const handleReject = () => {
-
-        const bookDetails = {
-            request_id: Number(request_id)
-        };
-
-        axiosInstance.post("/reject_borrow_request/", { bookDetails }, {
-            headers: {
-                'Authorization': authStore.user.token
-            }
-        })
-            .then((response: any) => {
-                if (response.status === 200) {
-                    window.location.reload();
-                    toast({
-                        
-                        title: "Request Rejected",
-                        description: `Rejected on ${new Date().toLocaleString()}`,
-                        variant: 'destructive'
-                    });
-                } else {
-                    alert('Failed to reject request');
-                }
-            })
-            .catch(() => {
-                alert("Failed to reject request");
-            });
-    };
     return (
         <Dialog>
             <DialogTrigger className="text-white font-bold">
@@ -132,12 +103,6 @@ export function ReturnRequestCard({ bookName, bookDescription, price, imageUrl, 
                 <DialogFooter>
                     <Button onClick={handleAccept}>
                         Accept
-                    </Button>
-                    <Button
-                        onClick={handleReject}
-                        variant="destructive"
-                    >
-                        Reject
                     </Button>
                 </DialogFooter>
             </DialogContent>
