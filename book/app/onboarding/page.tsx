@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axiosInstance from "@/axiosInstance";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function Onboarding() {
     const authStore = useAuthStore();
@@ -17,6 +18,11 @@ export default function Onboarding() {
     const [country, setCountry] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const router = useRouter()
+
+    function getCsrfToken() {
+        const cookieValue = document.cookie.match(/csrftoken=([^;]+)/);
+        return cookieValue ? cookieValue[1] : null;
+    }
 
     const handleSubmit = () => {
         // Here you can perform any action you want when the form is submitted
@@ -29,7 +35,7 @@ export default function Onboarding() {
         console.log("Country:", country);
         console.log("Phone Number:", phoneNumber);
 
-
+        const csrfToken = getCsrfToken();
         const details = {
             email:authStore.user.emailAdd,
             addressline1:areaName,
@@ -42,7 +48,11 @@ export default function Onboarding() {
 
         console.log(details)
 
-        axiosInstance.post("/onboard/",{details})
+        axiosInstance.post("/onboard/",{details}, {
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
         .then(response=>{
             if(response.status==200){
                 router.push("/dashboard")
@@ -50,7 +60,9 @@ export default function Onboarding() {
                 alert("onboarding failed retry")
             }
         })
-        .catch(()=>{
+        .catch((error)=>{
+            console.error("Onboarding failed:", error);
+            console.log("Error:", error.message)
             alert("onboarding failed try again")
         })
     };

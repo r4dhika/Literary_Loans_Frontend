@@ -1,4 +1,4 @@
-// File: /Users/radhikamaheshwari/Desktop/Literary_Loans_Frontend/book/app/layout.tsx
+// File: /Users/radhikamaheshwari/Desktop/frontend2/Literary_Loans_Frontend/book/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
