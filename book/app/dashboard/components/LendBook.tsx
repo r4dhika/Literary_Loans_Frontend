@@ -44,8 +44,7 @@ export default function LendBook() {
         })
         .then((response:any)=>{
             if(response.status==200){
-                alert("book added")
-                window.location.reload
+                window.location.reload()
             }else{
                 alert('failed to add book')
             }
