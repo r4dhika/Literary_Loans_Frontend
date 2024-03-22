@@ -46,7 +46,7 @@ interface User {
     picture: string | null;
     groups: any[]; // You might want to define a proper type for groups
     user_permissions: any[]; // You might want to define a proper type for user_permissions
-  }
+}
 
 interface Book {
     id: number;
@@ -55,7 +55,6 @@ interface Book {
     description: string;
     status: number;
     price: number;
-    penalty: string;
     quantity: number;
     available: boolean;
     book_rating: string;
@@ -89,7 +88,7 @@ export default function BooksCard({ token }: Props) {
                 const books_data = response.data;
                 setBooks(books_data);
                 bookStore.setBooks(books_data)
-                console.log(response);
+                console.log("RESPONSE",response);
             })
             .catch(error => {
                 console.error("Error fetching borrow requests:", error);
@@ -103,9 +102,33 @@ export default function BooksCard({ token }: Props) {
 
     return (
         <div className="flex flex-col w-100 align-middle justify-center gap-4">
-            {bookStore.books.map((book, index) => (
-                <BookCard key={index} bookName={book.title} bookDescription={book.description} price={book.price} lenderName={book.lender_id.first_name} lender_profile_pic={book.lender_id.picture} image={book.image} book_id = {book.id}/>
-            ))}
+            {bookStore.searchedBooks.length === 0 ? (
+                bookStore.books.map((book, index) => (
+                    <BookCard
+                        key={index}
+                        bookName={book.title}
+                        bookDescription={book.description}
+                        price={book.price}
+                        lenderName={book.lender_id.first_name}
+                        lender_profile_pic={book.lender_id.picture}
+                        image={book.image}
+                        book_id={book.id}
+                    />
+                ))
+            ) : (
+                bookStore.searchedBooks.map((book,index)=>(
+                    <BookCard
+                    key={index}
+                    bookName={book.title}
+                    bookDescription={book.description}
+                    price={book.price}
+                    lenderName={book.lender_id.first_name}
+                    lender_profile_pic={book.lender_id.picture}
+                    image={book.image}
+                    book_id={book.id}
+                    />
+                ))
+            )}
         </div>
     );
 }

@@ -54,7 +54,6 @@ interface Book {
     description: string;
     status: string;
     price: string;
-    penalty: string;
     quantity: number;
     author: string;
     available: boolean;

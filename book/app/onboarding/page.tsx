@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axiosInstance from "@/axiosInstance";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
 export default function Onboarding() {
     const authStore = useAuthStore();

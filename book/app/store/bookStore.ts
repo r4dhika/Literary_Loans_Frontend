@@ -35,7 +35,6 @@ interface Book {
     description: string;
     status: number;
     price: number;
-    penalty: string;
     quantity: number;
     available: boolean;
     book_rating: string;
@@ -51,11 +50,15 @@ interface Book {
 interface BookStore {
     books: Book[];
     setBooks: (to: Book[]) => void;
+    searchedBooks:Book[],
+    setSearchedBooks:(to:Book[])=>void
 }
 
 const useBookStore = create<BookStore>((set) => ({
     books: [],
     setBooks: (to: Book[]) => set({ books: to }),
+    searchedBooks:[],
+    setSearchedBooks:(to:Book[])=>set({searchedBooks:to})
 }));
 
 export default useBookStore;

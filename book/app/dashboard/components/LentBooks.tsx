@@ -54,7 +54,6 @@ interface Book {
     description: string;
     status: number;
     price: number;
-    penalty: string;
     quantity: number;
     available: boolean;
     book_rating: string;
@@ -134,11 +133,11 @@ export default function LendedBooks({ token }: Props) {
     return (
         <Card className="dark">
             <CardHeader>
-                <CardTitle>Lended Books</CardTitle>
+                <CardTitle>Lent Books</CardTitle>
             </CardHeader>
             <CardContent>
                 <Table>
-                    <TableCaption>A list of your lended books.</TableCaption>
+                    <TableCaption>A list of your lent books.</TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[200px]">Book</TableHead>

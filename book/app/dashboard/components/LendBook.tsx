@@ -12,49 +12,69 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+interface Genre {
+    id: number;
+    title: string;
+    description: string;
+}
 
 export default function LendBook() {
     const [bookName, setBookName] = useState("");
     const [bookDescription, setBookDescription] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [penalty, setPenalty] = useState("");
     const [authorName, setAuthorName] = useState("");
     const [coverImageUrl, setCoverImageUrl] = useState("");
     const [price, setPrice] = useState("");
-
+    const [bookGenre, setBookGenre] = useState("");
+    const [genres, setGenres] = useState<Genre[]>([]);
     const authStore = useAuthStore()
+
+    useEffect(() => {
+        axiosInstance.get("/genre/", {
+            headers: {
+                'Authorization': authStore.user.token
+            }
+        })
+            .then((response) => {
+                console.log("RESPONSEEEE", response)
+                setGenres(response.data as Genre[]);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
 
     const handleLendBook = () => {
         const bookDetails = {
             bookName,
             bookDescription,
             quantity,
-            penalty,
             authorName,
             coverImageUrl,
-            price
+            price,
+            bookGenre
         };
-        
-        axiosInstance.post("/book/create/",{bookDetails},{
+
+        axiosInstance.post("/book/create/", { bookDetails }, {
             headers: {
                 'Authorization': authStore.user.token
-              }
-        })
-        .then((response:any)=>{
-            if(response.status==200){
-                window.location.reload()
-            }else{
-                alert('failed to add book')
             }
         })
-        .catch(()=>{
-            alert("failed to add book")
-        })
-       
+            .then((response: any) => {
+                if (response.status == 200) {
+                    window.location.reload()
+                } else {
+                    alert('failed to add book')
+                }
+            })
+            .catch(() => {
+                alert("failed to add book")
+            })
+
     };
-    
+
     return (
         <Dialog>
             <DialogTrigger className="text-white font-bold">
@@ -89,12 +109,6 @@ export default function LendBook() {
                         <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="col-span-3" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="penalty" className="text-right">
-                            Penalty
-                        </Label>
-                        <Input id="penalty" type="number" value={penalty} onChange={(e) => setPenalty(e.target.value)} className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="author" className="text-right">
                             Author Name
                         </Label>
@@ -111,6 +125,16 @@ export default function LendBook() {
                             Price
                         </Label>
                         <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="col-span-3" />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <label htmlFor="genre" className="text-right">
+                            Genre
+                        </label>
+                        <select id="genre" value={bookGenre} onChange={(e) => setBookGenre(e.target.value)} multiple className="col-span-3">
+                            {genres.map(genre => (
+                                <option key={genre.id} value={genre.id} className="dark text-white">{genre.title}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <DialogFooter>
