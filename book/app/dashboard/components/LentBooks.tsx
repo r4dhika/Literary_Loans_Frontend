@@ -153,7 +153,7 @@ export default function LendedBooks({ token }: Props) {
                                 <TableCell className="font-medium text-right">{request.quantity}</TableCell>
                                 <TableCell className="text-right">{request.return_date}</TableCell>
                                 <TableCell className="text-right">
-                                    <Button onClick={() => handleReturn(request.id)}>Return Book</Button>
+                                    <Button onClick={() => handleReturn(request.id)}>Collect Book</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

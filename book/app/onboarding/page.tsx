@@ -67,10 +67,10 @@ export default function Onboarding() {
     };
 
     return (
-        <div>
-            <div className="text-white font-bold text-3xl">Welcome to Our Community!</div>
-            <Card className="dark w-[35%] p-2 flex flex-col justify-center align-middle items-center">
-                <CardContent className="flex flex-col gap-3">
+        <div className="dark p-2 flex flex-col justify-center align-middle items-center">
+            <div className="text-white font-bold text-3xl mb-10">Welcome to Our Community!</div>
+            <Card className="dark w-[40%] p-2 flex flex-col justify-center align-middle items-center">
+                <CardContent className="flex flex-col gap-3 mt-5 w-[70%]">
                     <div>
                         <Label htmlFor="email">Your Email</Label>
                         <Input type="email" id="email" placeholder={authStore.user.emailAdd} readOnly />

@@ -14,6 +14,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+
+
 interface Genre {
     id: number;
     title: string;
@@ -32,7 +41,7 @@ export default function LendBook() {
     const authStore = useAuthStore()
 
     useEffect(() => {
-        axiosInstance.get("/genre/", {
+        axiosInstance.get("/genre", {
             headers: {
                 'Authorization': authStore.user.token
             }
@@ -130,11 +139,31 @@ export default function LendBook() {
                         <label htmlFor="genre" className="text-right">
                             Genre
                         </label>
-                        <select id="genre" value={bookGenre} onChange={(e) => setBookGenre(e.target.value)} multiple className="col-span-3">
+                        {/* <select id="genre" value={bookGenre} onChange={(e) => setBookGenre(e.target.value)} multiple className="col-span-3 dark">
                             {genres.map(genre => (
-                                <option key={genre.id} value={genre.id} className="dark text-white">{genre.title}</option>
+                                <option key={genre.id} value={genre.id} className="dark text-black">{genre.title}</option>
                             ))}
-                        </select>
+                        </select> */}
+                        {/* <select id="genre" value={bookGenre} onChange={(e) => setBookGenre(e.target.value)} className="col-span-3 text-black">
+                            <option value="" disabled selected={!bookGenre} >Select a genre</option>
+                            {genres.map(genre => (
+                                <option key={genre.id} value={genre.id} >{genre.title}</option>
+                            ))}
+                        </select> */}
+                        <Select>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Genre" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {genres.map(genre => (
+                                <SelectItem key={genre.id} value={`${genre.id}`} >{genre.title}</SelectItem>
+                            ))}
+                                {/* <SelectItem value="light">Light</SelectItem>
+                                <SelectItem value="dark">Dark</SelectItem>
+                                <SelectItem value="system">System</SelectItem> */}
+                            </SelectContent>
+                        </Select>
+
                     </div>
                 </div>
                 <DialogFooter>

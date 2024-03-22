@@ -59,7 +59,7 @@ export default function RentBook({book_id} : Props) {
             </DialogTrigger>
             <DialogContent className="dark text-white">
                 <DialogHeader>
-                    <DialogTitle>Lend Book</DialogTitle>
+                    <DialogTitle>Rent Book</DialogTitle>
                     <DialogDescription>
                         Enter Rent Details for Borrowing
                     </DialogDescription>
