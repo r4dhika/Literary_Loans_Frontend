@@ -14,8 +14,6 @@ import RentBook from "./RentBook";
 
 export default function BookCard({ bookName, bookDescription, price, lenderName, image, book_id, lender_profile_pic}: any) {//TYPESCRIPT
     const authStore = useAuthStore()
-    console.log(authStore.user)
-    console.log(image)
     return (
         <Card className="w-[100%] flex p-2 items-center dark">
             <img className='w-[100px]' src={image} alt="book image" />

@@ -14,6 +14,7 @@ interface User {
 interface authStore {
     user: User
     setUser: (to: User) => void
+    logout: () => void
 }
 
 const useAuthStore = create<authStore>()(
@@ -28,7 +29,8 @@ persist(
             lastName: '',
             token: '',
         },
-        setUser: (to: User) => set({ user: to })
+        setUser: (to: User) => set({ user: to }),
+        logout: () => set({ user: { isAuthenticated: false, userId: 0, emailAdd: '', picture: '', firstName: '', lastName: '', token: '' } }), // Define logout method
     }),
     {
         name:"auth"
