@@ -93,12 +93,7 @@ export default function BooksCard({ token }: Props) {
             .catch(error => {
                 console.error("Error fetching borrow requests:", error);
             });
-
-        // Cleanup function to unsubscribe when the component unmounts
-        return () => {
-            // Cleanup code if needed
-        };
-    }, [token, authStore.user.token]); // Include current_user and token in the dependency array
+    }, [token, authStore.user.token]); 
 
     return (
         <div className="flex flex-col w-100 align-middle justify-center gap-4">

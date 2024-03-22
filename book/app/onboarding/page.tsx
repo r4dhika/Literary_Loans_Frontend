@@ -24,8 +24,6 @@ export default function Onboarding() {
     }
 
     const handleSubmit = () => {
-        // Here you can perform any action you want when the form is submitted
-        // For example, you can send the form data to a server or perform validation
         console.log("Form submitted!");
         console.log("Area Name:", areaName);
         console.log("District:", district);

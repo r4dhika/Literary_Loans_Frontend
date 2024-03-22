@@ -99,11 +99,7 @@ export default function BorrowedBooks({ token }: YourComponentProps) {
                 console.error("Error fetching borrow requests:", error);
             });
 
-        // Cleanup function to unsubscribe when the component unmounts
-        return () => {
-            // Cleanup code if needed
-        };
-    }, [token, authStore.user.token]); // Include current_user and token in the dependency array
+    }, [token, authStore.user.token]);
 
     const handleReturn = (request_id: any) => {
 

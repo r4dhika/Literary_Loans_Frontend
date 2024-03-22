@@ -44,8 +44,8 @@ interface User {
     state: string | null;
     country: string | null;
     picture: string | null;
-    groups: any[]; // You might want to define a proper type for groups
-    user_permissions: any[]; // You might want to define a proper type for user_permissions
+    groups: any[]; 
+    user_permissions: any[]; 
 }
 
 interface Book {
@@ -112,26 +112,9 @@ export default function BorrowRequests({ token }: Props) {
             .catch(error => {
                 console.error("Error fetching borrow requests:", error);
             });
-
-        // Cleanup function to unsubscribe when the component unmounts
-        return () => {
-            //Cleanup code
-        };
-    }, [token, authStore.user.token]); // Include current_user and token in the dependency array
+    }, [token, authStore.user.token]); 
 
     return (
-        // <Card className="dark ">
-        //     <CardHeader>
-        //         <CardTitle>Borrow Requests</CardTitle>
-        //     </CardHeader>
-        //     <CardContent>
-        //         <div className="flex flex-col w-100 gap-4">
-        //             {reqeusted.map((request, index) => (
-        //                 <BorrowRequestCard bookName={request.book.title} bookDescription={request.book.description} price={request.book.price} borrower_name={request.borrower.username} borrower_city={request.borrower.city} date={request.return_date} />
-        //             ))}
-        //         </div>
-        //     </CardContent>
-        // </Card>
         <Card className="dark ">
             <CardHeader>
                 <CardTitle>Requested Books</CardTitle>

@@ -24,8 +24,8 @@ interface User {
     state: string | null;
     country: string | null;
     picture: string | null;
-    groups: any[]; // You might want to define a proper type for groups
-    user_permissions: any[]; // You might want to define a proper type for user_permissions
+    groups: any[]; 
+    user_permissions: any[]; 
 }
 
 interface Book {
