@@ -17,11 +17,14 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useEffect, useState } from "react";
 import axiosInstance from "@/axiosInstance";
+import BookGenre from "./components/BookGenre";
 
 interface Genre {
     id: number;
@@ -34,12 +37,12 @@ export default function Home() {
     const isLoggedIn = authStore.user.isAuthenticated
     const token_value = authStore.user.token
     const [genres, setGenres] = useState<Genre[]>([]);
-
+    const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
     const bookStore = useBookStore()
     useEffect(() => {
         axiosInstance.get("/genre/", {
             headers: {
-                'Authorization': authStore.user.token
+                'Authorization': token_value
             }
         })
             .then((response) => {
@@ -91,27 +94,32 @@ export default function Home() {
                         <Input className="dark w-[50%] text-white" placeholder="Search..." onChange={handleSearch} />
                         <DropdownMenu>
                             <DropdownMenuTrigger className="dark text-white">Filter</DropdownMenuTrigger>
-                            <DropdownMenuContent>
+                            <DropdownMenuContent className="dark text-white">
                                 <DropdownMenuLabel>Genres</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup className="dark text-white">
                                 {genres.map(genre => {
-                                    return(
-                                        <DropdownMenuItem key={genre.id}>{genre.title}</DropdownMenuItem>
+                                    console.log(selectedGenre)
+                                    return (
+                                        <DropdownMenuRadioItem key={genre.id} value={genre.title} onSelect={() => setSelectedGenre(genre.title)}>{genre.title}</DropdownMenuRadioItem>
                                     )
-                                }
-                            )}                                
+                                })}        
+                                </DropdownMenuRadioGroup>
                             </DropdownMenuContent>
                         </DropdownMenu>
 
                     </div>
-                    <BooksCard token={token_value} />
+                    {selectedGenre !== null ? (
+                        <BookGenre token={token_value} genre_id={selectedGenre} />
+                    ) : (
+                        <BooksCard token={token_value} />
+                    )}
                 </div>
                 <div className="w-[30%] flex flex-col gap-3">
                     <Button onClick={() => handleSort()}>Sort By Locality</Button>
                     <BorrowRequests token={token_value} />
                     <ReturnRequests token={token_value} />
                     <BorrowRequestStatus token={token_value} />
-
                 </div>
             </div>
         </div>
